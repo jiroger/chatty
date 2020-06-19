@@ -8,11 +8,14 @@ var logger = require('morgan');
 var OpenTok = require('opentok');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var app = express();
 var apiKey = process.env.API_KEY;
 var apiSecret = process.env.API_SECRET;
+
+if (!apiKey || !apiSecret) {
+  throw "no apikey or apisecret"
+}
 
 opentok = new OpenTok(apiKey, apiSecret);
 opentok.createSession({mediaMode:"routed"}, function(error, session) {
@@ -20,6 +23,9 @@ opentok.createSession({mediaMode:"routed"}, function(error, session) {
     throw error;
   } else {
     app.set('sessionId', session.sessionId);
+    app.listen(3000, function () {
+      console.log('listening at 3000');
+    });
   }
 });
 
@@ -39,9 +45,7 @@ app.use(function(req, res, next) {
   res.locals.apiKey = apiKey;
   next();
 });
-
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

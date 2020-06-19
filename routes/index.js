@@ -11,7 +11,8 @@ router.get('/', function (req, res) {
   res.render('index.pug', {
     apiKey: apiKey,
     sessionId: sessionId,
-    token: token
+    token: token,
+    title: "bobby"
   });
 });
 
