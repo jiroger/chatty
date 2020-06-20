@@ -1,33 +1,12 @@
 //dependencies
-require('dotenv').config();
+//require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var OpenTok = require('opentok');
-
 var indexRouter = require('./routes/index');
-
 var app = express();
-var apiKey = process.env.API_KEY;
-var apiSecret = process.env.API_SECRET;
-
-if (!apiKey || !apiSecret) {
-  throw "no apikey or apisecret"
-}
-
-opentok = new OpenTok(apiKey, apiSecret);
-opentok.createSession({mediaMode:"routed"}, function(error, session) {
-  if (error) {
-    throw error;
-  } else {
-    app.set('sessionId', session.sessionId);
-    app.listen(3000, function () {
-      console.log('listening at 3000');
-    });
-  }
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,12 +18,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//routes middleware
-app.use(function(req, res, next) {
-  res.locals.sessionId = app.get('sessionId');
-  res.locals.apiKey = apiKey;
-  next();
-});
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
@@ -62,5 +35,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+app.listen(3000, function() {
+  console.log('You\'re app is now ready at http://localhost:3000/');
+});
 module.exports = app;
