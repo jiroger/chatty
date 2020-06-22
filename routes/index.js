@@ -1,34 +1,39 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+import OpenTok from 'opentok';
 
-router.get('/', function (req, res) {
-  var OpenTok = require('opentok');
+const router = express.Router();
+let sessionId;
+let token;
+
+router.get('/', (req, res) => {
   /* GET home page. */
 
-  var apiKey = process.env.API_KEY;
-  var apiSecret = process.env.API_SECRET;
-  var sessionId;
-  var token;
+  const apiSecret = process.env.API_SECRET;
+  const apiKey = process.env.API_KEY;
 
-  opentok = new OpenTok(apiKey, apiSecret);
+  const opentok = OpenTok(apiKey, apiSecret);
   if (!apiKey || !apiSecret) {
     throw "no apikey or apisecret";
   }
-  opentok.createSession({mediaMode:"routed"}, function(error, session) {
+  
+  opentok.createSession({mediaMode:"routed"}, (error, session) => {
     if (error) {
       throw error;
-    } else {
+    } 
+    else {
       sessionId = session.sessionId;
       token = opentok.generateToken(sessionId);
     }
   });
 
   res.render('index.pug', {
+    title: "bobby",
     apiKey: apiKey,
-    sessionId: sessionId,
     token: token,
-    title: "bobby"
+    sessionId: sessionId
   });
 });
 
-module.exports = router;
+export default router;
+
+
