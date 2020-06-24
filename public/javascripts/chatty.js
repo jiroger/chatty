@@ -6,8 +6,7 @@ session.on({
 
   // This function runs when session.connect() asynchronously completes
   sessionConnected: () => {
-    // Publish the publisher we initialzed earlier (this will trigger 'streamCreated' on other
-    // clients)
+    // trigger 'streamCreated' event
     session.publish(publisher);
   },
 

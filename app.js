@@ -7,12 +7,13 @@ import logger from 'morgan';
 import indexRouter from './routes/index.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import db from'./db/query.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
+db.createTable();
 
 // view engine setup
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
