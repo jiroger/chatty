@@ -11,7 +11,6 @@ let sessionId;
 let token;
 
 router.get('/', (req, res) => {
-  /* GET home page. */
 
   if (!apiKey || !apiSecret) {
     console.log("no apikey/apisecret")
@@ -20,29 +19,31 @@ router.get('/', (req, res) => {
 
   //note to self: findOpenSession returns a promise
   db.findOpenSession().then(data => {
-    console.log("sajdfhsalkhfd");
-  })
+    if (!data) {
+      opentok.createSession({mediaMode:"routed"}, (error, session) => {
+        if (error) {
+          console.log(error);
+          process.exit(1);
+        } 
+        else {
+          sessionId = session.sessionId;
+          db.addSession(sessionId);
+        }
+      });
+    }
+    else {
+      sessionId = data["sessionid"];
+      db.addUser(sessionId);
+    }
 
-  if (!sessionId) {
-    opentok.createSession({mediaMode:"routed"}, (error, session) => {
-      if (error) {
-        console.log(error);
-        process.exit(1);
-      } 
-      else {
-        sessionId = session.sessionId;
-        //db.addSession(sessionId);
-      }
+    token = opentok.generateToken(sessionId);
+
+    res.render('index.pug', {
+      title: "bobby",
+      apiKey: apiKey,
+      token: token,
+      sessionId: sessionId
     });
-  }
-
-  token = opentok.generateToken(db.findOpenSession());
-
-  res.render('index.pug', {
-    title: "bobby",
-    apiKey: apiKey,
-    token: token,
-    sessionId: sessionId
   });
 });
 

@@ -15,6 +15,7 @@ session.on({
     session.subscribe(event.stream, 'subscribers', { insertMode: 'append' });
   }
 
+  //note to self: need to have a disconnected eventlistener + interace w/ database
 });
 
 // Connect to the Session using the 'apiKey' of the application and a 'token' for permission

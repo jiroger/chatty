@@ -35,7 +35,7 @@ export default {
         SELECT sessionId FROM sessions WHERE numConnected <= 8
         LIMIT 1;
         `).then(res => {
-            return res["rows"][0] || null;
+            return res["rows"][0];
         })
         .catch(err => {
             console.error(err);
@@ -46,7 +46,7 @@ export default {
     addSession(session) {
         client.query(`
         INSERT INTO sessions (sessionId, numConnected, hasSpace)
-        VALUES ('"` + session + `"', 1, true);
+        VALUES ('` + session + `', 1, true);
         `).then(res => {
             console.log('Added sessionID successfully');
         })
@@ -59,9 +59,9 @@ export default {
         client.query(`
         UPDATE sessions
         SET numConnected = numConnected + 1
-        WHERE sessionId = '"` + session + `"';`
+        WHERE sessionId = '` + session + `';`
         ).then(res => {
-            console.log('Added sessionID successfully');
+            console.log('Added user successfully');
         })
         .catch(err => {
             console.error(err);
