@@ -8,8 +8,7 @@ export default {
         client.query(`
         CREATE TABLE IF NOT EXISTS sessions (
             sessionId text,
-            numConnected int,
-            hasSpace boolean
+            numConnected int
         );
         `).then(res => {
             console.log('Table is successfully created');
@@ -29,10 +28,10 @@ export default {
             console.error(err);
         })
     },
-
+    //finds the next open room
     findOpenSession() {
         return client.query(`
-        SELECT sessionId FROM sessions WHERE numConnected <= 8
+        SELECT sessionId FROM sessions WHERE numConnected < 3
         LIMIT 1;
         `).then(res => {
             return res["rows"][0];
@@ -45,8 +44,8 @@ export default {
 
     addSession(session) {
         client.query(`
-        INSERT INTO sessions (sessionId, numConnected, hasSpace)
-        VALUES ('` + session + `', 1, true);
+        INSERT INTO sessions (sessionId, numConnected)
+        VALUES ('` + session + `', 0);
         `).then(res => {
             console.log('Added sessionID successfully');
         })
@@ -72,19 +71,9 @@ export default {
         client.query(`
         UPDATE sessions
         SET numConnected = numConnected - 1
-        WHERE sessionId = '"` + session + `"';`
+        WHERE sessionId = '` + session + `';`
         ).then(res => {
-            console.log('Added sessionID successfully');
-        })
-        .catch(err => {
-            console.error(err);
-        })
-    },
-
-    query(query) {
-        client.query(query)
-        .then(res => {
-            console.log('Query success');
+            console.log('Removed user successfully');
         })
         .catch(err => {
             console.error(err);

@@ -1,16 +1,21 @@
-//dependencies
+//imports
 import createError from 'http-errors';
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import indexRouter from './routes/index.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+
+//custom imports
+import indexRouter from './routes/index.js';
+import updateRouter from './routes/update.js';
 import db from'./db/query.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
+//creates fresh table every time--for development only
+db.dropTable();
 db.createTable();
 
 // view engine setup
@@ -23,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/update', updateRouter);
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler

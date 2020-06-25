@@ -11,39 +11,42 @@ let sessionId;
 let token;
 
 router.get('/', (req, res) => {
-
-  if (!apiKey || !apiSecret) {
-    console.log("no apikey/apisecret")
-    process.exit(1);
-  }
-
-  //note to self: findOpenSession returns a promise
-  db.findOpenSession().then(data => {
-    if (!data) {
-      opentok.createSession({mediaMode:"routed"}, (error, session) => {
-        if (error) {
-          console.log(error);
-          process.exit(1);
-        } 
-        else {
-          sessionId = session.sessionId;
-          db.addSession(sessionId);
-        }
-      });
-    }
-    else {
-      sessionId = data["sessionid"];
-      db.addUser(sessionId);
-    }
-
+  //only called after sessionId has been initalized
+  function finish() {
     token = opentok.generateToken(sessionId);
-
     res.render('index.pug', {
       title: "bobby",
       apiKey: apiKey,
       token: token,
       sessionId: sessionId
     });
+  }
+
+  if (!apiKey || !apiSecret) {
+    console.log("no apikey/apisecret")
+    process.exit(1);
+  }
+
+  //findOpenSession returns a promise
+  db.findOpenSession().then(data => {
+    if (!data) { //create a new session if there's no available rooms
+      opentok.createSession({mediaMode:"routed"}, (error, session) => {
+        if (error) {
+          console.log(error);
+          res.locals.error = err;
+          res.render('error');
+        } 
+        else {
+          sessionId = session.sessionId;
+          db.addSession(sessionId); //adds new room to db so others can join
+          finish();
+        } 
+      });
+    }
+    else { //otherwise, use the next available room
+      sessionId = data["sessionid"];
+      finish()
+    }
   });
 });
 
