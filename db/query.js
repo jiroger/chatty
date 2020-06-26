@@ -28,10 +28,17 @@ export default {
             console.error(err);
         })
     },
-    //finds the next open room
-    findOpenSession() {
+    /* finds the next open room
+    for a FULL room, if user reloads, they will either be
+    placed into a new room or join the oldest non-full room
+    
+    otherwise, for normal reload, user will be placed into the
+    oldest non-full room
+    */
+
+    findOpenSession(size) {
         return client.query(`
-        SELECT sessionId FROM sessions WHERE numConnected < 3
+        SELECT sessionId FROM sessions WHERE numConnected < ` + size + `
         LIMIT 1;
         `).then(res => {
             return res["rows"][0];

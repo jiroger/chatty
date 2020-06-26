@@ -3,11 +3,14 @@ import db from '../db/query.js';
 const router = express.Router();
 
 router.post('/', (req, res) => {
-    if (req.body.event === 'connectionDestroyed') {
+    if (!req.body) {
+        res.render('error');
+    }
+    else if (req.body.event === 'connectionDestroyed') {
         db.removeUser(req.body.sessionId);
         console.log("meeeep");
     }
-    else if (req.body.event === 'streamCreated') {
+    else if (req.body.event === 'connectionCreated') {
         console.log(req.body.event);
         db.addUser(req.body.sessionId);
         console.log("mooop");

@@ -1,11 +1,20 @@
 if (!apiKey || !sessionId) {
-  alert("no apiKey or sessionId");
+  console.error("no apiKey or sessionId");
 }
 
 let session = OT.initSession(apiKey, sessionId);
-let publisher = OT.initPublisher('publisher', null, (err) => {
+const WIDTH = '25%';
+const HEIGHT = '35%';
+
+let publisherOptions = {
+  insertMode:'append',
+  width: WIDTH,
+  height: HEIGHT
+};
+
+let publisher = OT.initPublisher('container', publisherOptions, (err) => {
   if (err) {
-    alert(err);
+    console.error(err.message);
   }
   else {
     console.log("publisher successfully initialized");
@@ -14,13 +23,12 @@ let publisher = OT.initPublisher('publisher', null, (err) => {
 
 // Attach event handlers
 session.on({
-
   // This function runs when session.connect() asynchronously completes
   sessionConnected: () => {
     // trigger 'streamCreated' event
     session.publish(publisher, (err) => {
       if (err) {
-        alert("cannot publish your video");
+        console.log(err.message);
       }
       else {
         console.log("successfully published video");
@@ -28,11 +36,16 @@ session.on({
     });
   },
 
-  // This function runs when another client publishes a stream (eg. session.publish())
+  // runs when session.publish() successfully completes
   streamCreated: (event) => {
-    session.subscribe(event.stream, 'subscribers', { insertMode: 'append' }, (err) => {
+    let subscriberOptions = {
+      insertMode:'append',
+      width: WIDTH,
+      height: HEIGHT
+    };
+    session.subscribe(event.stream, 'container', subscriberOptions, (err) => {
       if (err) {
-        alert("cannot subscribe to other streams");
+        console.error(err);
       }
       else {
         console.log("successfully subscribed to streams");
@@ -45,7 +58,7 @@ session.on({
 // Connect to the Session using the 'apiKey' of the application and a 'token' for permission
 session.connect(token, (err) => {
   if (err) {
-    alert("connection not established");
+    console.error("connection not established");
   }
   else {
     console.log("successfully connected to session");

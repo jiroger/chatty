@@ -6,6 +6,7 @@ const router = express.Router();
 const apiSecret = process.env.API_SECRET;
 const apiKey = process.env.API_KEY;
 const opentok = OpenTok(apiKey, apiSecret);
+const ROOM_SIZE = 4;
 
 let sessionId;
 let token;
@@ -28,7 +29,7 @@ router.get('/', (req, res) => {
   }
 
   //findOpenSession returns a promise
-  db.findOpenSession().then(data => {
+  db.findOpenSession(ROOM_SIZE).then(data => {
     if (!data) { //create a new session if there's no available rooms
       opentok.createSession({mediaMode:"routed"}, (error, session) => {
         if (error) {
