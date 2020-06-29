@@ -1,12 +1,28 @@
-body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+.navbar-brand {
+  font-size: 2em;
 }
 
-a {
-  color: #00B7FF;
+.nav-item {
+  font-size: 1.5em;
+  padding: 10px 20px !important;
 }
 
-#container {
+.nav-item:hover {
+  background-color: #ffffff4d;
+  transition: ease 0.7s;
+}
+
+.masthead {
+  height: 100vh;
+  min-height: 500px;
+  background-image: url('https://storage.pixteller.com/designs/designs-images/2019-03-27/05/simple-background-backgrounds-passion-simple-1-5c9b95bd34713.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#video-container {
   display: flex;
   flex-flow: row wrap;
   align-items: stretch;

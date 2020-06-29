@@ -12,7 +12,7 @@ let publisherOptions = {
   height: HEIGHT
 };
 
-let publisher = OT.initPublisher('container', publisherOptions, (err) => {
+let publisher = OT.initPublisher('video-container', publisherOptions, (err) => {
   if (err) {
     console.error(err.message);
   }
@@ -43,7 +43,7 @@ session.on({
       width: WIDTH,
       height: HEIGHT
     };
-    session.subscribe(event.stream, 'container', subscriberOptions, (err) => {
+    session.subscribe(event.stream, 'video-container', subscriberOptions, (err) => {
       if (err) {
         console.error(err);
       }

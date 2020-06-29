@@ -2,7 +2,14 @@ doctype html
 html
   head
     title= title
+    link(
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha256-NJWeQ+bs82iAeoT5Ktmqbi3NXwxcHlfaVejzJI2dklU="
+          crossorigin="anonymous"
+        )
     link(rel='stylesheet', href='/stylesheets/style.css')
+
     script(src='https://static.opentok.com/v2/js/opentok.min.js')
     script(src="https://code.jquery.com/jquery-3.5.1.js", integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=", crossorigin="anonymous")
     script.
@@ -10,5 +17,26 @@ html
         var sessionId = "#{sessionId}";
         var token = "#{token}";
   body
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+        div.container
+          a.navbar-brand(href='/') Chatty
+          button.navbar-toggler(type='button', data-toggle='collapse', data-target='#collapse', aria-controls='collapse', aria-expanded='false', aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+          div#collapse.collapse.navbar-collapse
+            div.navbar-nav.ml-auto
+              a.nav-item.nav-link(href='/about') About
+              a.nav-item.nav-link(href='https://github.com/jiroger/chatty') Source
+              a.nav-item.nav-link(href='/chat') Chat
     block content
-    script(src='/javascripts/chatty.js')
+
+    script(
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"
+      integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+      crossorigin="anonymous"
+    )
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous")
+    script(
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"
+      integrity="sha256-DiWJXXyq81WlPRnDfGmgYZj2aOVCKyEdJ1l+2TmDuAs="
+      crossorigin="anonymous"
+    )

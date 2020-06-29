@@ -1,6 +1,9 @@
 extends layout
 
-block content
-  h1= title
-  p Welcome to #{title}
-  div(id='container')
+block content  
+    header.masthead
+        div.container.h-100
+            div.row.h-100.align-items-center
+                div.col-12.text-center
+                    h1 this is the landing page, will prompt user for a name (optional)
+                    p will also include some stats here

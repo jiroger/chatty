@@ -8,8 +8,9 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 //custom imports
-import indexRouter from './routes/index.js';
+import chatRouter from './routes/chat.js';
 import updateRouter from './routes/update.js';
+import indexRouter from './routes/index.js';
 import db from'./db/query.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/update', updateRouter);
+app.use('/chat', chatRouter);
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
