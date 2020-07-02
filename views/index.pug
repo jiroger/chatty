@@ -5,5 +5,14 @@ block content
         div.container.h-100
             div.row.h-100.align-items-center
                 div.col-12.text-center
-                    h1 this is the landing page, will prompt user for a name (optional)
-                    p will also include some stats here
+                    h1 Get Chatting.
+                    br
+                    p(style="font-size: 1.3em;") You'll be placed in a random video chatroom of up to 8 people.
+                    br
+                    div.btn-toolbar.justify-content-center
+                        form(method='post', action='/chat')
+                            div.form-row
+                                div.col-auto
+                                    input.form-control.form-control-lg(type='text', placeholder='Name (optional)', name="name")
+                                div.col-auto
+                                    button.btn.btn-outline-success.btn-lg(type='submit') Submit

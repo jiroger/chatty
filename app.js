@@ -16,7 +16,10 @@ import db from'./db/query.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 //creates fresh table every time--for development only
-db.dropTable();
+if (process.env.NODE_ENV === 'development') {
+  db.dropTable();
+}
+
 db.createTable();
 
 // view engine setup
@@ -32,6 +35,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/update', updateRouter);
 app.use('/chat', chatRouter);
 app.use('/', indexRouter);
+app.use('/about', (req, res) => {
+  res.render('about.pug');
+})
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

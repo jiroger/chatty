@@ -6,7 +6,7 @@ const router = express.Router();
 const apiSecret = process.env.API_SECRET;
 const apiKey = process.env.API_KEY;
 const opentok = OpenTok(apiKey, apiSecret);
-const ROOM_SIZE = 4;
+const ROOM_SIZE = 8;
 
 let sessionId;
 let token;
@@ -16,10 +16,11 @@ router.all('/', (req, res) => {
   function finish() {
     token = opentok.generateToken(sessionId);
     res.render('chat.pug', {
-      title: !req.body ? req.body.name : "User",
-      apiKey: apiKey,
-      token: token,
-      sessionId: sessionId
+      name: req.body.name ? req.body.name : "User",
+      apiKey,
+      token,
+      sessionId,
+      ROOM_SIZE,
     });
   }
 
@@ -46,7 +47,7 @@ router.all('/', (req, res) => {
     }
     else { //otherwise, use the next available room
       sessionId = data["sessionid"];
-      finish()
+      finish();
     }
   });
 });

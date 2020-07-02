@@ -2,22 +2,39 @@ if (!apiKey || !sessionId) {
   console.error("no apiKey or sessionId");
 }
 
-let session = OT.initSession(apiKey, sessionId);
-const WIDTH = '25%';
-const HEIGHT = '35%';
+const session = OT.initSession(apiKey, sessionId);
+const WIDTH = 100/(ROOM_SIZE / 2)+ "%";
+const HEIGHT = '50%';
 
-let publisherOptions = {
+const publisherOptions = {
   insertMode:'append',
   width: WIDTH,
-  height: HEIGHT
+  height: HEIGHT,
+  name,
+  style: {
+    buttonDisplayMode: 'off'
+  }
 };
 
-let publisher = OT.initPublisher('video-container', publisherOptions, (err) => {
+const publisher = OT.initPublisher('video-container', publisherOptions, (err) => {
   if (err) {
     console.error(err.message);
   }
   else {
     console.log("publisher successfully initialized");
+  }
+});
+
+publisher.on({
+  accessDenied: (event) => {
+    const errorBox = document.getElementById('video-container');
+    errorBox.innerHTML = `Chatty requires access to your microphone and camera.  
+                          <br><br> You can always turn them off when connected.)`;
+    errorBox.style.fontSize = "x-large";
+    errorBox.style.textAlign = "center";
+    errorBox.style.justifyContent = "center";
+    errorBox.style.alignContent = "center";
+    errorBox.style.margin = "0 0";
   }
 });
 
@@ -64,3 +81,21 @@ session.connect(token, (err) => {
     console.log("successfully connected to session");
   }
 });
+
+function toggleVideo() {
+  if (publisher.stream.hasVideo) {
+    publisher.publishVideo(false);
+  }
+  else {
+    publisher.publishVideo(true);
+  }
+}
+
+function toggleAudio() {
+  if (publisher.stream.hasAudio) {
+    publisher.publishAudio(false);
+  }
+  else {
+    publisher.publishAudio(true);
+  }
+}

@@ -9,15 +9,17 @@ html
           crossorigin="anonymous"
         )
     link(rel='stylesheet', href='/stylesheets/style.css')
-
+    block style
     script(src='https://static.opentok.com/v2/js/opentok.min.js')
     script(src="https://code.jquery.com/jquery-3.5.1.js", integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=", crossorigin="anonymous")
     script.
         var apiKey = "#{apiKey}";
         var sessionId = "#{sessionId}";
         var token = "#{token}";
+        var name = "#{name}";
+        var ROOM_SIZE = "#{ROOM_SIZE}"
   body
-    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+    nav.navbar.navbar-expand-lg.fixed-top.navbar-light
         div.container
           a.navbar-brand(href='/') Chatty
           button.navbar-toggler(type='button', data-toggle='collapse', data-target='#collapse', aria-controls='collapse', aria-expanded='false', aria-label='Toggle navigation')

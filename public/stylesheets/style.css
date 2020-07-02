@@ -3,14 +3,29 @@
   font-size: 2em;
 }
 
+.navbar {
+  border-bottom: 1px grey solid;
+}
+
+.info {
+  font-size: 1.1em;
+}
+
+.section-header {
+  font-size: 1.3em;
+  font-weight: bold;
+
+}
 .nav-item {
   font-size: 1.5em;
   padding: 10px 20px !important;
+  color: rgba(0,0,0,0.6) !important;
 }
 
 .nav-item:hover {
-  background-color: #ffffff4d;
+  background-color: rgba(0,0,0,0.1);
   transition: ease 0.7s;
+  color: black !important;
 }
 
 .masthead {
@@ -21,10 +36,22 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+/* note to self: change so it only affects body for chat */
 
 #video-container {
   display: flex;
   flex-flow: row wrap;
-  align-items: stretch;
-  height: 100vh;
+  align-content: flex-start;
+  margin-top: 75px;
+  height: calc(100vh - 75px - 48px);
+}
+
+#video-container > .btn-group {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.btn-group > button.active {
+  border: 1px black solid !important;
 }
