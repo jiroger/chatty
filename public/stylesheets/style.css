@@ -28,6 +28,8 @@
   color: black !important;
 }
 
+/* cover styling (home/about) */
+
 .masthead {
   height: 100vh;
   min-height: 500px;
@@ -36,20 +38,40 @@
   background-position: center;
   background-repeat: no-repeat;
 }
-/* note to self: change so it only affects body for chat */
+
+/* video container styling */
 
 #video-container {
   display: flex;
   flex-flow: row wrap;
   align-content: flex-start;
+  height: calc(100vh - 75px - 38px);
   margin-top: 75px;
-  height: calc(100vh - 75px - 48px);
+  background-color: black;
 }
 
-#video-container > .btn-group {
+#video-container > * {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  transition: all 0.5s ease;
+  margin-top: 75px;
+}
+
+#video-container > *.ot-layout {
+  opacity: 1;
+}
+
+/* chat page footer buttons styling */
+
+#footer-container > .btn-group {
   bottom: 0;
   position: fixed;
   width: 100%;
+}
+
+.btn-group > .btn {
+  border-radius: 0px !important;
 }
 
 .btn-group > button.active {

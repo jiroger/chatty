@@ -1,8 +1,9 @@
 {
   "name": "chatty",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon -r dotenv/config app.js"
   },
@@ -17,8 +18,12 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "opentok": "^2.10.0",
+    "opentok-layout-js": "^3.7.1",
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "pug": "^3.0.0"
+  },
+  "engines": {
+    "node": "14.4.0"
   }
 }

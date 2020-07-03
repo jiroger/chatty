@@ -16,7 +16,7 @@ router.all('/', (req, res) => {
   function finish() {
     token = opentok.generateToken(sessionId);
     res.render('chat.pug', {
-      name: req.body.name ? req.body.name : "User",
+      name: req.body.name ? req.body.name : 'User',
       apiKey,
       token,
       sessionId,
@@ -25,14 +25,14 @@ router.all('/', (req, res) => {
   }
 
   if (!apiKey || !apiSecret) {
-    console.log("no apikey/apisecret")
+    console.log('no apikey/apisecret');
     process.exit(1);
   }
 
   //findOpenSession returns a promise
   db.findOpenSession(ROOM_SIZE).then(data => {
     if (!data) { //create a new session if there's no available rooms
-      opentok.createSession({mediaMode:"routed"}, (error, session) => {
+      opentok.createSession({mediaMode:'routed'}, (error, session) => {
         if (error) {
           console.log(error);
           res.locals.error = err;
@@ -46,7 +46,7 @@ router.all('/', (req, res) => {
       });
     }
     else { //otherwise, use the next available room
-      sessionId = data["sessionid"];
+      sessionId = data['sessionid'];
       finish();
     }
   });

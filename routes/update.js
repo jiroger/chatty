@@ -8,10 +8,10 @@ router.post('/', (req, res) => {
         res.render('error');
         res.status(400).end()
     }
-    else if (req.body.event === 'connectionDestroyed') {
+    else if (req.body.event === 'streamDestroyed') {
         db.removeUser(req.body.sessionId);
     }
-    else if (req.body.event === 'connectionCreated') {
+    else if (req.body.event === 'streamCreated') {
         console.log(req.body.event);
         db.addUser(req.body.sessionId);
     }

@@ -1,15 +1,15 @@
+const initLayoutContainer = require('opentok-layout-js');
+const layout = initLayoutContainer(document.getElementById("video-container")).layout;
+layout();
+
 if (!apiKey || !sessionId) {
   console.error("no apiKey or sessionId");
 }
 
 const session = OT.initSession(apiKey, sessionId);
-const WIDTH = 100/(ROOM_SIZE / 2)+ "%";
-const HEIGHT = '50%';
 
 const publisherOptions = {
   insertMode:'append',
-  width: WIDTH,
-  height: HEIGHT,
   name,
   style: {
     buttonDisplayMode: 'off'
@@ -34,7 +34,10 @@ publisher.on({
     errorBox.style.textAlign = "center";
     errorBox.style.justifyContent = "center";
     errorBox.style.alignContent = "center";
-    errorBox.style.margin = "0 0";
+    errorBox.style.margin = "75px 0";
+    errorBox.style.backgroundColor = "white";
+
+    document.getElementById('footer-container').innerHTML = "";
   }
 });
 
@@ -51,14 +54,13 @@ session.on({
         console.log("successfully published video");
       }
     });
+    layout();
   },
 
   // runs when session.publish() successfully completes
   streamCreated: (event) => {
     let subscriberOptions = {
-      insertMode:'append',
-      width: WIDTH,
-      height: HEIGHT
+      insertMode:'append'
     };
     session.subscribe(event.stream, 'video-container', subscriberOptions, (err) => {
       if (err) {
@@ -68,8 +70,12 @@ session.on({
         console.log("successfully subscribed to streams");
       }
     });
+    layout();
   },
 
+  streamDestroyed: (event) => {
+    layout();
+  }
 });
 
 // Connect to the Session using the 'apiKey' of the application and a 'token' for permission
@@ -81,6 +87,15 @@ session.connect(token, (err) => {
     console.log("successfully connected to session");
   }
 });
+
+//resizes videos when window size changes
+let resizeTimeout;
+window.onresize = function() {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(function () {
+    layout();
+  }, 20);
+};
 
 function toggleVideo() {
   if (publisher.stream.hasVideo) {
@@ -99,3 +114,6 @@ function toggleAudio() {
     publisher.publishAudio(true);
   }
 }
+
+//needed for browserify to expose functions to template
+module.exports = { toggleAudio: toggleAudio, toggleVideo: toggleVideo };
