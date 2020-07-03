@@ -5,7 +5,7 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "npm start"
+    "start": "node app.js"
   },
   "dependencies": {
     "constantinople": "^4.0.1",
