@@ -20,7 +20,6 @@ if (process.env.NODE_ENV === 'development') {
   db.dropTable();
 }
 
-db.dropTable();
 db.createTable();
 
 // view engine setup

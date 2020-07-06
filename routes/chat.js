@@ -6,7 +6,7 @@ const router = express.Router();
 const apiSecret = process.env.API_SECRET;
 const apiKey = process.env.API_KEY;
 const opentok = OpenTok(apiKey, apiSecret);
-const ROOM_SIZE = 8;
+const ROOM_SIZE = 3;
 
 let sessionId;
 let token;

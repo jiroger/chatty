@@ -73,7 +73,8 @@ session.on({
     layout();
   },
 
-  streamDestroyed: (event) => {
+  connectionDestroyed: (event) => {
+    console.log("stream destroyed");
     layout();
   }
 });
@@ -98,7 +99,7 @@ window.onresize = function() {
 };
 
 function toggleVideo() {
-  if (publisher.stream.hasVideo) {
+ if (publisher.stream.hasVideo) {
     publisher.publishVideo(false);
   }
   else {
