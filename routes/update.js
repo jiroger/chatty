@@ -12,7 +12,6 @@ router.post('/', (req, res) => {
         db.removeUser(req.body.sessionId);
     }
     else if (req.body.event === 'streamCreated') {
-        console.log(req.body.event);
         db.addUser(req.body.sessionId);
     }
     //204 status code = server accepted, no response

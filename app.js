@@ -55,8 +55,8 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-app.listen(3000, () => {
-  console.log('Running at port 3000');
+app.listen(process.env.PORT || 5000, () => {
+  console.log('Running at port' + process.env.PORT || 5000);
 });
 
 export default app;

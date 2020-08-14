@@ -7,6 +7,7 @@ export default {
     createTable() {
         client.query(`
         CREATE TABLE IF NOT EXISTS sessions (
+            id SERIAL PRIMARY KEY,
             sessionId text,
             numConnected int
         );
@@ -39,6 +40,7 @@ export default {
     findOpenSession(size) {
         return client.query(`
         SELECT sessionId FROM sessions WHERE numConnected < ` + size + `
+        ORDER BY id
         LIMIT 1;
         `).then(res => {
             return res["rows"][0];
@@ -51,8 +53,8 @@ export default {
 
     addSession(session) {
         client.query(`
-        INSERT INTO sessions (sessionId, numConnected)
-        VALUES ('` + session + `', 0);
+        INSERT INTO sessions (id, sessionId, numConnected)
+        VALUES (DEFAULT, '` + session + `', 0);
         `).then(res => {
             console.log('Added sessionID successfully');
         })
